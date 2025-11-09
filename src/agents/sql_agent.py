@@ -12,7 +12,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from ..database.manager import DatabaseManager
 from ..database.metadata_manager import MetadataManager
 from ..utils.sql_validator import SQLValidator
-from ..utils.config import get_settings
+from ..utils.config import get_settings, create_openai_llm
 
 logger = logging.getLogger(__name__)
 settings = get_settings()
@@ -24,11 +24,7 @@ class SQLAgent:
     """
     
     def __init__(self):
-        self.llm = ChatOpenAI(
-            model="gpt-4",
-            temperature=0.1,
-            api_key=settings.openai_api_key
-        )
+        self.llm = create_openai_llm()
         self.db_manager = DatabaseManager()
         self.metadata_manager = MetadataManager()
         self.sql_validator = SQLValidator()

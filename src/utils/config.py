@@ -28,6 +28,11 @@ class Settings(BaseSettings):
     openai_api_key: str = Field(..., env="OPENAI_API_KEY")
     anthropic_api_key: Optional[str] = Field(default=None, env="ANTHROPIC_API_KEY")
     
+    # Configuración del modelo OpenAI
+    openai_model: str = Field(default="gpt-4o-mini", env="OPENAI_MODEL")
+    openai_temperature: float = Field(default=0.1, env="OPENAI_TEMPERATURE")
+    openai_max_tokens: Optional[int] = Field(default=None, env="OPENAI_MAX_TOKENS")
+    
     # LangSmith
     langsmith_api_key: Optional[str] = Field(default=None, env="LANGSMITH_API_KEY")
     langsmith_tracing: bool = Field(default=False, env="LANGSMITH_TRACING")
@@ -217,3 +222,25 @@ def setup_sentry():
             traces_sample_rate=0.1 if not settings.debug else 1.0,
             release=settings.app_version,
         )
+
+
+def create_openai_llm(temperature: Optional[float] = None) -> "ChatOpenAI":
+    """
+    Crea una instancia de ChatOpenAI con la configuración centralizada
+    
+    Args:
+        temperature: Temperatura específica, si no se proporciona usa la del config
+        
+    Returns:
+        Instancia configurada de ChatOpenAI
+    """
+    from langchain_openai import ChatOpenAI
+    
+    settings = get_settings()
+    
+    return ChatOpenAI(
+        model=settings.openai_model,
+        temperature=temperature if temperature is not None else settings.openai_temperature,
+        max_tokens=settings.openai_max_tokens,
+        api_key=settings.openai_api_key
+    )

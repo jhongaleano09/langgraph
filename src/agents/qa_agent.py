@@ -7,7 +7,7 @@ from typing import Dict, Any, List, Optional
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 
-from ..utils.config import get_settings
+from ..utils.config import get_settings, create_openai_llm
 
 logger = logging.getLogger(__name__)
 settings = get_settings()
@@ -19,11 +19,7 @@ class QAAgent:
     """
     
     def __init__(self):
-        self.llm = ChatOpenAI(
-            model="gpt-4",
-            temperature=0.1,
-            api_key=settings.openai_api_key
-        )
+        self.llm = create_openai_llm()
         self.prompt = self._create_prompt()
     
     def _create_prompt(self) -> ChatPromptTemplate:

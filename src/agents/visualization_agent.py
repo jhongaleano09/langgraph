@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 
-from ..utils.config import get_settings
+from ..utils.config import get_settings, create_openai_llm
 
 logger = logging.getLogger(__name__)
 settings = get_settings()
@@ -26,11 +26,7 @@ class VisualizationAgent:
     """
     
     def __init__(self):
-        self.llm = ChatOpenAI(
-            model="gpt-4",
-            temperature=0.2,
-            api_key=settings.openai_api_key
-        )
+        self.llm = create_openai_llm(temperature=0.2)  # Temperatura específica para visualización
         self.prompt = self._create_prompt()
         
         # Configurar estilo de gráficos
