@@ -470,5 +470,34 @@ class VisualizationAgent:
     
     def _create_error_chart(self, error_message: str) -> bytes:
         """Crea un gráfico de error"""
+        import plotly.graph_objects as go
         
-        return self._create_empty_chart(f"Error: {error_message}")
+        fig = go.Figure()
+        fig.add_annotation(
+            text=f"Error: {error_message}",
+            xref="paper",
+            yref="paper",
+            x=0.5,
+            y=0.5,
+            showarrow=False,
+            font=dict(size=16, color="red")
+        )
+        fig.update_layout(
+            showlegend=False,
+            xaxis=dict(visible=False),
+            yaxis=dict(visible=False),
+            height=400
+        )
+        
+        return self._fig_to_bytes(fig)
+
+
+# Función de ayuda para crear instancias del agente
+def create_visualization_agent() -> VisualizationAgent:
+    """
+    Crea una instancia del VisualizationAgent
+    
+    Returns:
+        VisualizationAgent: Instancia configurada del agente de visualización
+    """
+    return VisualizationAgent()

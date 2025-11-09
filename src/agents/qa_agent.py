@@ -352,3 +352,14 @@ class QAAgent:
         except Exception as e:
             logger.error(f"Error generando sugerencias: {str(e)}")
             return ["Revisar la consulta SQL manualmente"]
+
+
+# Función de ayuda para crear instancias del agente
+def create_qa_agent() -> QAAgent:
+    """
+    Crea una instancia del QAAgent
+    
+    Returns:
+        QAAgent: Instancia configurada del agente QA
+    """
+    return QAAgent()

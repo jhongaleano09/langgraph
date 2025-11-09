@@ -17,7 +17,7 @@ RUN apt-get update \
         libffi-dev \
         libglib2.0-dev \
         libpango1.0-dev \
-        libgdk-pixbuf2.0-dev \
+        libgdk-pixbuf-xlib-2.0-dev \
         libgtk-3-dev \
         shared-mime-info \
     && apt-get clean \
@@ -33,7 +33,7 @@ RUN pip install poetry
 RUN poetry config virtualenvs.create false
 
 # Install dependencies
-RUN poetry install --only=main --no-dev
+RUN poetry install --only=main --no-root
 
 # Copy project
 COPY . .

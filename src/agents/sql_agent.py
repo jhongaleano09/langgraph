@@ -214,3 +214,14 @@ class SQLAgent:
             additional_context=refinement_context,
             qa_feedback=qa_feedback
         )
+
+
+# Función de ayuda para crear instancias del agente
+def create_sql_agent() -> SQLAgent:
+    """
+    Crea una instancia del SQLAgent
+    
+    Returns:
+        SQLAgent: Instancia configurada del agente SQL
+    """
+    return SQLAgent()
